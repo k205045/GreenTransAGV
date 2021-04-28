@@ -67,8 +67,8 @@ class mbclient():
         return self.conn.read_input_registers(7320, 2)
 
     def IAI_Error(self):
-        if self.conn.read_discrete_inputs(6) or self.conn.read_discrete_inputs(7):
-            return True
+        # if self.conn.read_discrete_inputs(6) or self.conn.read_discrete_inputs(7):
+        #     return True
         return False
 
     def GetBarcode(self):
