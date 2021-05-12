@@ -112,12 +112,12 @@ class TM(Thread):
                                         c = c.split(",")
                                         c = [Decimal(j) for j in c]
                                         c = [c[i:i + 2] for i in range(0, len(c), 2)]
-                                        self.log.info(c)
+                                        # self.log.info(c)
                                         G_circle = self.sql.Get_TM("G_MASTER")[0]
                                         G_circle = np.array([float(G_circle[1]), float(G_circle[2])])
                                         L_circle = np.array(self.getCircle(c))
                                         a = L_circle - G_circle
-                                        print([float(Decimal(i).quantize(Decimal('.0000'), ROUND_HALF_UP)) for i in a])
+                                        self.log.info([float(Decimal(i).quantize(Decimal('.0000'), ROUND_HALF_UP)) for i in a])
                                         self.sockClient.sendall(self.SendTMSCT('ScriptExit()').encode())
                                         Cycle = False
                                         self.TMloop = False
