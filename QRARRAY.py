@@ -49,7 +49,7 @@ for i in range(1,15):
 
     # a4im.paste(im, im.getbbox())  # Not centered, top-left corner
     a4im.filter(ImageFilter.EDGE_ENHANCE)
-    a4im.save("QR"+str(i)+".png", quality=100)
+    a4im.save("QR"+str(i)+".jpg", quality=100)
     a4im.show()
     if num == len(list):
         break

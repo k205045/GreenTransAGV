@@ -86,10 +86,10 @@ def RK2Print():
                     result += '-' + chr(66 + col_list[lanmarknum]) + str(k)
             # print(result)
             QRPrint(result)
-
+# RK206-8
 def EQ1Print():
 
-    for i in range(1,11):
+    for i in range(11,41):
         RKnum = i
         for j in range(1,3):
             lanmarknum = j
@@ -97,7 +97,7 @@ def EQ1Print():
             if RKnum > 9:
                 result = 'EQ1' + str(RKnum) + '-' + str(lanmarknum)
             else:
-                result = 'EQ10'+ str(RKnum)+'-'+str(lanmarknum)
+                result = 'EQ10'+ str(RKnum) + '-' + str(lanmarknum)
             # print(lanmarknum % 3)
 
             if lanmarknum % 2 == 0:
@@ -113,6 +113,6 @@ def EQ1Print():
 if __name__ == '__main__':
     # RK1Print()
     # RK2Print()
-    QRPrint("EQ001-1-A1-A2-A3")
-    QRPrint("EQ001-2-B1-B2-B3")
+    # QRPrint("EQ001-1-A1-A2-A3")
+    # QRPrint("EQ001-2-B1-B2-B3")
     EQ1Print()
