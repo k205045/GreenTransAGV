@@ -1,3 +1,4 @@
+#全域變數
 def _init():
     global res
     global sen

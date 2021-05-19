@@ -2,6 +2,7 @@ from PIL import Image, ImageDraw, ImageFilter
 from PIL import ImageFont
 from os import listdir
 from os.path import isfile, join
+#QRcode拼貼
 mypath = "QRcodefloder"
 # im = Image.open("advanceduse.png")
 list = []

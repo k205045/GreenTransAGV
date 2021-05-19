@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # install pyModbusTCP ref: https://pypi.org/project/pyModbusTCP/
-
+# modbus連接
 # from pymodbus.client.sync import ModbusTcpClient as ModbusClient
 from pymodbus.payload import BinaryPayloadDecoder
 from pymodbus.constants import Endian
@@ -51,7 +51,8 @@ class mbclient():
         a = self.conn.read_discrete_inputs(8, 6)
         return a
 
-    def Error_or_Not(self):
+    # Roboterror
+    def Roboterror(self):
         return self.conn.read_discrete_inputs(7201) # FUN 02
 
     def M_A(self):
@@ -63,8 +64,13 @@ class mbclient():
     def Stop(self):
         self.conn.write_single_coil(7105, True)
 
-    def Error_code(self):
-        return self.conn.read_input_registers(7320, 2)
+    # RoboterrorCode
+    def RoboterrorCode(self):
+        a = ['%02X' % i for i in self.conn.read_input_registers(7320, 2)]
+        for i in range(len(a)):
+            if len(a[i]) < 4:
+                a[i] = "0" * (4 - len(a[i])) + a[i]
+        return a[0] + a[1]
 
     def IAI_Error(self):
         # if self.conn.read_discrete_inputs(6) or self.conn.read_discrete_inputs(7):
@@ -130,17 +136,23 @@ class mbclient():
     def home(self):
         return self.conn.read_coils(9003)
 
-    def Roboterror(self):
+    # Error_or_Not
+    def Error_or_Not(self):
         return self.conn.read_coils(9004)
 
     def Robotstop(self):
         return self.conn.read_input_registers(9223, 1)
 
-    def RoboterrorCode(self):
+    # Error_code
+    def Error_code(self):
         return self.conn.read_input_registers(9222, 1)
 
     def syserrorcode(self):
         return self.conn.read_input_registers(9221, 1)
+
+    def ErrorReset(self):
+        self.conn.write_single_register(9004, 0)
+        self.conn.write_single_register(9222, 0)
 
     # while True:
     #     # open or reconnect TCP to server

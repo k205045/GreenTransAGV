@@ -17,7 +17,7 @@ class My_flask(FlaskView):
         return "<h1>Web Connected!!</h1>"
 
     # @route('/action')
-    def Action(self):
+    def Action(self):#動作執行
         try:
             data = request.data.decode()
             # mbsev = mbservertest.mbclient()
@@ -80,7 +80,7 @@ class My_flask(FlaskView):
 
 
 
-    def Status(self):
+    def Status(self):#狀態詢問
         try:
             data = request.data.decode()
             j_data = json.loads(data)
@@ -101,12 +101,21 @@ class My_flask(FlaskView):
                 "Status": str(b).strip("[]"),
                 "ErrorCode": str(c).strip("[]"),
                 "syserror" : str(a).strip("[]"),
-                "syserrorCode" : str(e).strip("[]"),
                 "Roboterror" : str(g).strip("[]"),
                 "RoboterrorCode" : str(h).strip("[]"),
-                "home" : str(f).strip("[]"),
-                "IAIerror" : str(i).strip("[]")
+                "home" : str(f).strip("[]")
             }
+            # res = {
+            #     "RobotCompelet": str(d).strip("[]"),
+            #     "Status": str(b).strip("[]"),
+            #     "ErrorCode": str(c).strip("[]"),
+            #     "syserror": str(a).strip("[]"),
+            #     "syserrorCode": str(e).strip("[]"),
+            #     "Roboterror": str(g).strip("[]"),
+            #     "RoboterrorCode": str(h).strip("[]"),
+            #     "home": str(f).strip("[]"),
+            #     "IAIerror": str(i).strip("[]")
+            # }
             log.info(res)
             k.Check_Time()
             return jsonify(res)
@@ -121,7 +130,7 @@ class My_flask(FlaskView):
             k.Check_Time()
             return jsonify(res)
 
-    def Getbarcode(self):
+    def Getbarcode(self):#獲取barcode
         try:
             data = request.data.decode()
             j_data = json.loads(data)
@@ -146,8 +155,10 @@ class My_flask(FlaskView):
             k.Check_Time()
             return jsonify(res)
 
-    def SysErrorReset(self):
+    def SysErrorReset(self):#本程式異常復歸
         My_global.set_error(None)
+        mbsev = mbservertest.mbclient()
+        mbsev.ErrorReset()
         res = {
             "Result": "Y",
         }
@@ -155,30 +166,7 @@ class My_flask(FlaskView):
         k.Check_Time()
         return jsonify(res)
 
-    def errorHandling(self):
-        try:
-            data = request.data.decode()
-            j_data = json.loads(data)
-            a = My_global.get_error()
-            res = {
-                "Result": "Y",
-                "Status": a,
-            }
-            log.info(res)
-            k.Check_Time()
-            return jsonify(res)
-
-        except Exception as e:
-            print(e)
-            res = {
-                "Result": "N",
-                "error": e,
-            }
-            log.info(e)
-            k.Check_Time()
-            return jsonify(res)
-
-    def BufferStatus(self):
+    def BufferStatus(self):#Buffer狀態
         try:
             data = request.data.decode()
             j_data = json.loads(data)
@@ -208,7 +196,7 @@ class My_flask(FlaskView):
             k.Check_Time()
             return jsonify(res)
 
-    def SetBarcodeCheck(self):
+    def SetBarcodeCheck(self):#是否獲取barcode
         try:
             data = request.data.decode()
             j_data = json.loads(data)

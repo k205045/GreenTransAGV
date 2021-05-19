@@ -1,7 +1,7 @@
 from flask import Flask
 import app
 from threading import Thread
-
+#flask套件啟動
 class My_app(Thread):
     def __init__(self):
         Thread.__init__(self)

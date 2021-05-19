@@ -2,7 +2,7 @@ import logging
 import os
 from logging import handlers
 import time
-
+#log管理
 class _logging():
     def Getlogger(self,filename = 'default.log'):
         level = logging.INFO

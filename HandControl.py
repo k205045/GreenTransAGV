@@ -14,11 +14,11 @@ Web.start()
 # sql = mysqlite()
 mode = "Catch"
 action = ""
-while True:
+while True:#循環開始
     try:
         # if not TM.is_alive():
         #     TM.start()
-        if My_global.get_res() != None:
+        if My_global.get_res() != None:#接收訊號後開始
             a = My_global.get_res()
             print("get_res:" + str(My_global.get_res()))
             My_global.set_res(None)
