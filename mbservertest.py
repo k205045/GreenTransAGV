@@ -145,10 +145,10 @@ class mbclient():
 
     # Error_code
     def Error_code(self):
-        return self.conn.read_input_registers(9222, 1)
+        return self.conn.read_holding_registers(9222, 1)
 
     def syserrorcode(self):
-        return self.conn.read_input_registers(9221, 1)
+        return self.conn.read_holding_registers(9221, 1)
 
     def ErrorReset(self):
         self.conn.write_single_register(9004, 0)

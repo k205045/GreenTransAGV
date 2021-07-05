@@ -497,7 +497,7 @@ class TM(Thread):
                                             self.log.info("angle=" + str(angle))
 
                                             data = str([float(x.quantize(Decimal('.00'), ROUND_HALF_UP)), float(y.quantize(Decimal('.00'), ROUND_HALF_UP)),
-                                                        M1[2],  M1[3],  M1[4],  float(Decimal(M1[5])-Decimal(angle))]).replace("[", "{").replace("]", "}").replace("'", "")
+                                                        c[2],  M1[3],  M1[4],  float(Decimal(M1[5])-Decimal(angle))]).replace("[", "{").replace("]", "}").replace("'", "")
 
                                             self.log.info("data" + data)
                                         else:
