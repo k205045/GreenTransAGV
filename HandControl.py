@@ -31,31 +31,31 @@ while True:#循環開始
             if a["name"] == "action":
 
                 mode = a['action']
-                if mode == 'Home':
+                if mode == 'Home':#回原點
                     action
                 elif mode == 'BARCODE':
                     action
-                elif mode == 'Catch':
+                elif mode == 'Catch':#抓取步驟
                     if a["end"] != "":
                         My_global.set_sen({
                             "status": "PLEASE set 'end' empty"
                         })
                         continue
                     action
-                elif mode == 'PUT':
+                elif mode == 'PUT':#擺放步驟
                     if a["start"] != "":
                         My_global.set_sen({
                             "status": "PLEASE set 'end' empty"
                         })
                         continue
                     action
-                elif mode == 'OPEN':
+                elif mode == 'OPEN':#開爪
 
                     action
-                elif mode == 'CLOSE':
+                elif mode == 'CLOSE':#關爪
 
                     action
-                elif mode == 'MIX':
+                elif mode == 'MIX':#取放連動
 
                     action
 
@@ -65,17 +65,17 @@ while True:#循環開始
                         print(chr(64 + (ord(a[5])-64)*2) >= a[2][0])
                     elif a[1][:2] == "MR" or a[1][:2] == "EQ":
                         print(chr(64 + (ord(a[5]) - 64) * 2) >= a[4][0])
-                elif mode == 'PLAY':
+                elif mode == 'PLAY':#控制器開始
                     mbsev = mb()
                     b = mbsev.Play_Pause()
                     mbsev.conn.close()
                     del mbsev
-                elif mode == 'PAUSE':
+                elif mode == 'PAUSE':#控制器暫停
                     mbsev = mb()
                     b = mbsev.Play_Pause()
                     mbsev.conn.close()
                     del mbsev
-                elif mode == 'STOP':
+                elif mode == 'STOP':#控制器停止
                     mbsev = mb()
                     b = mbsev.Stop()
                     mbsev.conn.close()

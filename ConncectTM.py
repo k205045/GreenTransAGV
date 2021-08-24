@@ -43,7 +43,7 @@ class TM(Thread):
             self.Disconnect = False
             self.log.info("Robot Not Connect!")
 
-    def xor_strings(self, rulsult):
+    def xor_strings(self, rulsult):#驗證碼生成
         # self.log.info(rulsult)
         tmp = ord(rulsult[0])
         for i in range(1, len(rulsult)):
@@ -54,7 +54,7 @@ class TM(Thread):
 
         return str(hex(tmp))[2:]
 
-    def SendTMSCT(self, data): #Listen
+    def SendTMSCT(self, data): #組合Listen訊息
         ID = str(0)
         Len = str(1 + len(ID) + len(data))
         cmd = "TMSCT," + Len + ",0," + data + ","
@@ -77,9 +77,9 @@ class TM(Thread):
         if self.ac_list[7] == "Z":
             pass
         else:
-            if self.ac_list[1][:2] == "RK" or self.ac_list[1][:2] == "EQ":
+            if self.ac_list[1][:2] == "RK" or self.ac_list[1][:2] == "EQ":#確認訊息
 
-                if self.ac_list[1][:2] == "RK":
+                if self.ac_list[1][:2] == "RK":#停車點判斷
                     if self.ac_list[1][:3] == "RK1":
 
                         if int(self.ac_list[3]) > 3:
@@ -146,7 +146,7 @@ class TM(Thread):
         while self.TMloop:
             if self.Disconnecttimes == 5:
                 self.TMloop = False
-            if mbsev.Robotstop() == 0 or mbsev.Robotstop() == None:
+            if mbsev.Robotstop() == 0 or mbsev.Robotstop() == None:#判斷ROBOT可否執行
                 self.TMloop = False
             # print("============")
             try:
@@ -157,12 +157,12 @@ class TM(Thread):
                 a_1 = self.sockClient.recv(1024).decode()
                 a = a_1.split(",")
                 # a = [0,0,0,"true","Start"]
-                if a_1.strip() != "" or len(a) == 6:
+                if a_1.strip() != "" or len(a) == 6:#是否可以發送訊息
                     # print(a)
                     if a[3] == "true":
                         if a[4] == "Start":
 
-                            if self.mode == "HOME" or self.mode == "BARCODE" or self.mode == "CHECK":
+                            if self.mode == "HOME" or self.mode == "BARCODE" or self.mode == "CHECK":#要資料
                                 self.sockClient.sendall(self.SendTMSCT('var_data = "' + self.action + '"\r\nScriptExit()').encode())
                             elif self.mode == "BARCODE":
                                 # self.log.info(1)
@@ -177,11 +177,11 @@ class TM(Thread):
 
 
                             self.TMloop = False
-                            if self.mode == "SET" or self.mode == "SET_G_MASTER" or self.mode == "SET_L_MASTER":
+                            if self.mode == "SET" or self.mode == "SET_G_MASTER" or self.mode == "SET_L_MASTER":#紀錄點為
                                 self.TMloop = True
                                 self.TM_str = ''
                                 self.sockClient.sendall(self.SendTMSCT('var_data = "' + self.action +'"\r\nScriptExit()').encode())
-                            elif self.mode == "PUT" or self.mode == "Catch" or self.mode == "MIX" :
+                            elif self.mode == "PUT" or self.mode == "Catch" or self.mode == "MIX" :#執行動作
 
                                 self.TMloop = True
                                 self.sockClient.sendall(self.SendTMSCT(
@@ -201,7 +201,7 @@ class TM(Thread):
                                 #     self.TM_str = self.TM_str + ',' + i
                                 # self.sockClient.sendall(self.SendTMSCT('var_locate = "' + self.TM_str + '"').encode())
 
-                        elif a[4] == "give_pos_data":
+                        elif a[4] == "give_pos_data":#獲取點為
                             self.log.info("give_pos_data")
                             Cycle = True
                             self.sockClient.sendall(self.SendTMSCT('ListenSend(90, var_allpos)').encode())
@@ -219,7 +219,7 @@ class TM(Thread):
                                         self.log.info(c)
                                         c.pop(0)
                                         self.log.info(c)
-                                        if c[0][0] == "":
+                                        if c[0][0] == "":#判斷QRCODE是否有照到
                                             raise Exception("QRCODE NOT FOUND")
                                         else:
                                             offset.append(c[0][0])
@@ -375,16 +375,16 @@ class TM(Thread):
                                         #
                                         #     self.weight(global_1,global_2)
                                         # else:
-                                        self.sql.Ins_TM(offset)
-                                        self.sockClient.sendall(self.SendTMSCT('ScriptExit()').encode())
+                                        self.sql.Ins_TM(offset)#插入SQLITE
+                                        self.sockClient.sendall(self.SendTMSCT('ScriptExit()').encode())#退出LISTEN
                                         Cycle = False
                             # sleep(3)
                             # self.sockClient.sendall(self.SendTMSCT('ScriptExit()').encode())
                             # print(self.sockClient.recv(1024))
                             self.TMloop = False
                             self.log.info('bye')
-                        elif a[4] == "give_pos_data_2":
-                            self.sockClient.sendall(self.SendTMSCT('ListenSend(90, var_allpos)').encode())
+                        elif a[4] == "give_pos_data_2":#執行動作
+                            self.sockClient.sendall(self.SendTMSCT('ListenSend(90, var_allpos)').encode())#發送執行命令
                             while True:
                                 b = self.sockClient.recv(1024).decode()
                                 a = b.split(",")
@@ -403,12 +403,12 @@ class TM(Thread):
                                         try:
                                             RK1_1 = [0, 8, 9, 10, 1, 2, 3 ]
                                             RK1_2 = [0, 11, 12, 4, 5]
-                                            RK1_3 = [0,13, 14, 6, 7]
+                                            RK1_3 = [0, 13, 14, 6, 7]
                                             RK2_1 = [0, 1, 2, 3, 6, 7, 8]
                                             RK2_2 = [0, 4, 5, 9, 10]
 
                                             # d = self.sql.Get_TM(c[0][0])[0][int(self.ac_list[1])]
-                                            if self.ac_list[1][:2] == "RK" or self.ac_list[1][:2] == "EQ":
+                                            if self.ac_list[1][:2] == "RK" or self.ac_list[1][:2] == "EQ":#計算欲到達格子
                                                 self.tmp = int(self.ac_list[3])
                                                 self.tmp1 = (ord(self.ac_list[2]) - 65) % 2
                                                 if self.ac_list[1][:2] == "RK":
@@ -428,7 +428,7 @@ class TM(Thread):
                                                 else:
                                                     self.pos = self.tmp
 
-                                            elif self.ac_list[4][:2] == "RK" or self.ac_list[4][:2] == "EQ":
+                                            elif self.ac_list[4][:2] == "RK" or self.ac_list[4][:2] == "EQ":#計算欲到達格子
                                                 self.tmp = int(self.ac_list[6])
                                                 self.tmp1 = (ord(self.ac_list[5]) - 65) % 2
                                                 if self.ac_list[4][:2] == "RK":
@@ -473,7 +473,7 @@ class TM(Thread):
                                             self.log.info("M0="+str(M0))
                                             self.log.info("M0'"+str(c))
 
-
+                                            #旋轉矩陣計算
                                             angle = -(Decimal(c[5]) - Decimal(M0[5]))
 
                                             M0x = Decimal(M0[0]) * Decimal(cos(angle * Decimal(pi) / 180)) + Decimal(
